@@ -7,18 +7,28 @@ if (!fs.existsSync(distClient)) {
   process.exit(0);
 }
 
+// detect asset filenames
+const assetsDir = path.join(distClient, 'assets');
+const files = fs.readdirSync(assetsDir);
+const css = files.find((f) => f.endsWith('.css'));
+const scripts = files.filter((f) => f.endsWith('.js'));
+
+const cssHref = css ? `/assets/${css}` : '';
+const scriptTags = scripts
+  .map((s) => `<script type="module" src="/assets/${s}"></script>`)
+  .join('\n    ');
+
 const html = `<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Aahaar</title>
-    <link rel="stylesheet" href="/assets/styles-C66oozee.css">
+    ${cssHref ? `<link rel="stylesheet" href="${cssHref}">` : ''}
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/assets/index-B7JU7gSN.js"></script>
-    <script type="module" src="/assets/index-CedM8fqi.js"></script>
+    ${scriptTags}
   </body>
 </html>`;
 
