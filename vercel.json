@@ -1,19 +1,6 @@
 {
-  "builds": [
-    {
-      "src": "dist/server/index.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "dist/client/**",
-      "use": "@vercel/static"
-    }
-  ],
   "routes": [
     { "handle": "filesystem" },
-    {
-      "src": "/(.*)",
-      "dest": "/dist/server/index.js"
-    }
+    { "src": "/(.*)", "dest": "/dist/client/index.html" }
   ]
 }
